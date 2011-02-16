@@ -1,0 +1,11 @@
+a:link, a:visited {
+    color: #1485CC;
+    text-decoration: none;
+}
+body { background-color: #000000; color: #bbb; }
+h2 { color: #999; margin: 0px 0px 5px 0px; font-family: Helvetica, Arial, sans-serif; font-size: 24px; }
+p { color: #999; font-family: Helvetica, Arial, sans-serif; font-size: 14px; margin-bottom: 4px;}
+div { margin: 0px 20px 20px 20px; border-bottom: 1px dotted #333; }
+canvas { margin-bottom: 10px; border: 2px solid #333;}
+#logo { margin-top: 20px; padding-bottom: 10px;}
+.twitter-share-button { padding: 20px 0px 20px 4px; } 
