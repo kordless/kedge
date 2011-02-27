@@ -4,8 +4,10 @@ a:link, a:visited {
 }
 body { background-color: #000000; color: #bbb; }
 h2 { color: #999; margin: 0px 0px 5px 0px; font-family: Helvetica, Arial, sans-serif; font-size: 24px; }
-p { color: #999; font-family: Helvetica, Arial, sans-serif; font-size: 14px; margin-bottom: 4px;}
+p { color: #999; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; margin-bottom: 4px; padding-top: 8px;}
 div { margin: 0px 20px 20px 20px; border-bottom: 1px dotted #333; }
 canvas { margin-bottom: 10px; border: 2px solid #333;}
-#logo { margin-top: 20px; padding-bottom: 10px;}
+#logo { margin-top: 20px; padding-bottom: 10px; border: 0px;}
+#blurb { margin-top: 0px; padding-bottom: 10px; width: 1000px;}
+#footer { margin-top: 0px; padding-bottom: 10px; border: 0px;}
 .twitter-share-button { padding: 20px 0px 20px 4px; } 

@@ -34,7 +34,7 @@ function TimeSeries() {
   /**
    * The minimum value ever seen in this time series.
    */
-  this.min = undefined;
+  this.min = .0001;
 }
 
 TimeSeries.prototype.append = function(timestamp, value) {
@@ -61,7 +61,7 @@ SmoothieChart.prototype.streamTo = function(canvas, delay) {
   var self = this;
   setInterval(function() {
     self.render(canvas, new Date().getTime() - (delay || 0));
-  });
+  }, 10);
 };
 
 SmoothieChart.prototype.render = function(canvas, time) {

@@ -9,7 +9,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script> 
   <script type="text/javascript"> 
     $(document).ready(function(){
-      var socket = new io.Socket("house.geekceo.com"); 
+      var socket = new io.Socket("ec2-184-72-188-89.compute-1.amazonaws.com"); 
       socket.connect();
       var lines = {};
       var graphs = [];
@@ -27,21 +27,21 @@
           // create new lines to stick in graphs
           lines[search] = new TimeSeries();
           lines[search].append(new Date().getTime(), 1);
-          console.log(lines);
-          gstyle = { grid: { strokeStyle:'rgb(0,125,0)', fillStyle:'rgb(0,60,0)', lineWidth: 1, millisPerLine: 500, verticalSections: 6, }, labels: { fillStyle:'rgb(200,200,200)'} };
+          gstyle = { grid: { strokeStyle:'rgb(0,125,0)', fillStyle:'rgb(0,60,0)', lineWidth: 1, millisPerLine: 1000, verticalSections: 6 }, labels: { fillStyle:'rgb(200,200,200)'}, millisPerPixel: 90 };
           graphs[i] = new SmoothieChart(gstyle);
           lstyle = { strokeStyle:'rgb(150,255,150)', fillStyle:'rgba(150,255,150,0.4)', lineWidth: 2 }; 
           graphs[i].addTimeSeries(lines[search], lstyle);
-          graphs[i].streamTo(document.getElementById(graph_id), 1000);
+          graphs[i].streamTo(document.getElementById(graph_id), 2000);
           lines[search].append(new Date().getTime(), .0001);
         });
         socket.send(searches);
       });
       socket.on('message', function(data){
-        console.log(data);
+        //console.log(data.searches);
         $.each( data.searches, function(search) {
           foo = data.searches[search];
           // keep the graphs from breaking with 0
+          console.log(search + ":" + foo);
           if (foo == 0) { foo = .0001; }
           lines[search].append(new Date().getTime(), foo);
         });
@@ -54,30 +54,31 @@
 </head>
 <body>
 <div id='logo'><img src="/images/loggly.png"/></div>
-
+<div id='blurb'><p>This page uses <a href="http://nodejs.org/">Node.js</a>, <a href="http://socket.io/">Socket.io</a>, <a href="http://smoothiecharts.org/">Smoothie Charts</a>, and <a href="http://logg.ly/">Loggly</a> to generate near-realtime graphs.  Data is fed into Loggly via HTTP or Syslog based inputs and Node.js is used to query and cache the last minute's facet data for a given search.  Data is streamed to web clients in realtime using Socket.io. You can <a href="http://github.com/kordless/kedge/">grab the code on Github</a>.</p>
+<p>You can easily edit the data being tracked by creating a new canvas element in the HTML and then giving it a unique id and a title which contains the search term for your Loggly account.</p>
+<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="loggly">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+</div>
+</div>
 <!-- Number Client Connected -->
 <div>
 <h2>Number of Clients Connected to Kedge</h2>
-<canvas id="clients" title="numclients" width="1000" height="200"></canvas>
+<canvas id="clients" title="numclients" width="1000" height="120"></canvas>
 </div>
 
-<!-- Fuck Tweets Graph -->
+<!-- Tweets Graph -->
 <div>
-<h2>Tweets with 'Hacker News' or 'Reddit'</h2>
-<canvas id="hnreddit" title="hacker news OR reddit" width="1000" height="200"></canvas>
+<h2>Tweets Matching <a href="http://twitter.com/#search?q=reddit" TARGET="_blank">'Reddit'</a></h2>
+<canvas id="reddit" title="reddit" width="1000" height="120"></canvas>
 </div>
 
 <!-- Visitor Graph -->
-<br clear="all">
 <div>
-<h2>Loggly Visitors</h2>
-<canvas id="visits" title="inputname:loggly_web" width="1000" height="200"></canvas>
+<h2>Loggly Website Hits</h2>
+<canvas id="visits" title="inputname:loggly_web" width="1000" height="120"></canvas>
 </div>
 
-<div>
-<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="loggly">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-<p>Only works in Chrome, Safari and Opera.  Props to <a href="http://twitter.com/joewalnes/">@joewalnes</a> for <a href="http://smoothiecharts.org">Smoothie Charts</a>, <a href="http://twitter.com/nodejs/">@nodejs</a> and <a href="http://socket.io/">socket.io</a>.</p>
-<p>© 2011 <a href="http://loggly.com/">Loggly, Inc.</a> You can <a href="http://github.com/kordless/kedge/">grab the code on Github</a>.<p>
+<div id="footer">
+<p>© 2011 <a href="http://loggly.com/">Loggly, Inc.</a></p>
 </div>
 </body>
 </html>

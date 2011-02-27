@@ -40,12 +40,13 @@ var fetch = function () {
     if (stashes[stash].length < 5) { 
       // only if the array for the search is running low, do we get new results
       geekceo.facet('date', stash)
-        .context({ buckets: 15, from: "NOW-2MINUTES", until: "NOW-1MINUTES" })
+        .context({ buckets: 30, from: "NOW-2MINUTES", until: "NOW-1MINUTES" })
         .run(function (err, results) {
           //console.log(results);
           // we're asnyc in here, so don't use non-unique externals
           // use the query in the response for finding the stash search term
           var query = results.context.query;
+          
           // quick list so we can sort by date 
           var ud = [];
           for (var x in results.data) {
@@ -62,7 +63,7 @@ var fetch = function () {
 
 // run fetch above to check and/or populate stashes
 // make this interval * # of buckets above ~= 60K
-setInterval(fetch, 4000);
+setInterval(fetch, 2000);
 
 // triggered by setInterval below
 // shifts data from each stash and dunks it into the the client's search values
@@ -84,7 +85,7 @@ var dunk = function() {
     }
   }
 }
-setInterval(dunk, 4000);
+setInterval(dunk, 2000);
 
 // serve static content
 var server = http.createServer(function(req, res){ 
